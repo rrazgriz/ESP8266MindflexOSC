@@ -17,7 +17,7 @@
 const char* ssid = SSID;
 const char* pass = PSK;
 const IPAddress outIp(IP_1,IP_2,IP_3,IP_4);        
-WiFiUDP Udp;                                // A UDP instance to let us send and receive packets over UDP
+WiFiUDP Udp;
 Brain brain(Serial);
 
 OSCBundle eeg_bundle;
@@ -26,6 +26,7 @@ OSCBundle debug_bundle;
 // Declarations
 float attention = 0;
 float meditation = 0;
+int signal_valid = 0;
 int attention_binary1 = 0;
 int attention_binary2 = 0;
 int meditation_binary1 = 0;
@@ -41,14 +42,6 @@ unsigned long eegwave4 = 0;
 unsigned long eegwave5 = 0;
 unsigned long eegwave6 = 0;
 unsigned long eegwave7 = 0;
-
-void sendOSC(OSCMessage& oscMessage, float value, int port) {
-    oscMessage.add(value);
-    Udp.beginPacket(outIp, port);
-    oscMessage.send(Udp);
-    Udp.endPacket();
-    oscMessage.empty();
-}
 
 void initWiFi() {
     // Connect to WiFi network
@@ -103,12 +96,15 @@ void processInterval() {
         attention = (float) eegattention/100;
         meditation = (float) eegmeditation/100;
 
+        signal_valid = (eegsignal < 1.0) ? 1 : 0;
+
         attention_binary1 = 0;
         attention_binary2 = 0;
         meditation_binary1 = 0;
         meditation_binary2 = 0;
 
         // Build bundle: address + value (type is automatically set)
+        eeg_bundle.add(SIGNALVALID_PARAM_VRCHAT).add(signal_valid);
         eeg_bundle.add(ATTENTION_PARAM_VRCHAT).add(attention);
         eeg_bundle.add(MEDITATION_PARAM_VRCHAT).add(meditation);
 
@@ -168,11 +164,12 @@ void processInterval() {
 }
 
 void setup() {
-    Serial.begin(9600);
+    Serial.begin(9600); // Needs to be 9600 to recieve from Neurosky
 
     initWiFi();
 
     // Set initial values to zero
+    eeg_bundle.add(SIGNALVALID_PARAM_VRCHAT).add((int) 0);
     eeg_bundle.add(ATTENTION_PARAM_VRCHAT).add((float) 0.0);
     eeg_bundle.add(MEDITATION_PARAM_VRCHAT).add((float) 0.0);
 
@@ -196,6 +193,7 @@ void loop() {
     // Wifi should try to auto reconnect
     if (WiFi.status() != WL_CONNECTED) {
         Serial.println("WiFi Not Connected...");
+        delay(500);
     } else {
       processInterval();
     }

@@ -18,6 +18,7 @@
 
 #define ATTENTION_PARAM_VRCHAT  "/avatar/parameters/EEGAttention"
 #define MEDITATION_PARAM_VRCHAT "/avatar/parameters/EEGMeditation"
+#define SIGNALVALID_PARAM_VRCHAT "/avatar/parameters/EEGSignal"
 
 #define ATTENTION_PARAM_BINARY1 "/avatar/parameters/EEGAttention1"
 #define ATTENTION_PARAM_BINARY2 "/avatar/parameters/EEGAttention2"
