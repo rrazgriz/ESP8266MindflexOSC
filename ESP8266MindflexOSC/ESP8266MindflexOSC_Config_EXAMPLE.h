@@ -11,6 +11,7 @@
 
 #define DEBUG_ENABLE false
 #define BINARY_PARAMS false
+#define BINARY_PARAM_BITS 3
 
 #define LOCAL_PORT 8888
 #define VRCHAT_PORT 9000
@@ -19,10 +20,5 @@
 #define ATTENTION_PARAM_VRCHAT  "/avatar/parameters/EEGAttention"
 #define MEDITATION_PARAM_VRCHAT "/avatar/parameters/EEGMeditation"
 #define SIGNALVALID_PARAM_VRCHAT "/avatar/parameters/EEGSignal"
-
-#define ATTENTION_PARAM_BINARY1 "/avatar/parameters/EEGAttention1"
-#define ATTENTION_PARAM_BINARY2 "/avatar/parameters/EEGAttention2"
-#define MEDITATION_PARAM_BINARY1 "/avatar/parameters/EEGMeditation1"
-#define MEDITATION_PARAM_BINARY2 "/avatar/parameters/EEGMeditation2"
 
 #define DEBUG_ADDRESS "eegdata"
