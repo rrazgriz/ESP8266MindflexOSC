@@ -56,7 +56,7 @@ void bundle_binary_params(OSCBundle &bundle, char *paramName, int binaryBits, fl
 
         strcpy(paramNameBuffer, paramName);
         strcat(paramNameBuffer, itoa(pow(2, i - 1), itoaBuffer, 10));
-        bundle.add(paramNameBuffer).add(itoa(outVal, itoaBuffer, 10));
+        bundle.add(paramNameBuffer).add(outVal);
 
         #if DEBUG_ENABLE
             Serial.print(paramNameBuffer);
